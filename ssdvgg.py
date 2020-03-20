@@ -260,7 +260,7 @@ class SSDVGG:
             #-------------------------------------------------------------------
             w = array2tensor(mod_w, 'filter')
             b = array2tensor(mod_b, 'biases')
-            x = tf.nn.conv2d(self.mod_pool5, w, [1, 1, 1, 1], padding='SAME', dilations=6)
+            x = tf.nn.conv2d(self.mod_pool5, w, [1, 1, 1, 1], padding='SAME', dilations=[1, 6, 6, 1])
             #x = tf.nn.atrous_conv2d(self.mod_pool5, w, rate=6, padding='SAME')
             x = tf.nn.bias_add(x, b)
             x = tf.nn.relu(x)
