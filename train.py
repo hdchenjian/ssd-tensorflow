@@ -280,6 +280,13 @@ def main():
                     if len(training_imgs_samples) < 3:
                         training_imgs_samples.append((saved_images[i], boxes))
 
+            # Save a checktpoint
+            if (e+1) % args.checkpoint_interval == 0:
+                checkpoint = '{}/e{}.ckpt'.format(args.name, e+1)
+                saver.save(sess, checkpoint)
+                print('[i] Checkpoint saved:', checkpoint)
+            if e < 6666: continue
+
             #-------------------------------------------------------------------
             # Validate
             #-------------------------------------------------------------------
@@ -329,14 +336,6 @@ def main():
             validation_imgs.push(e+1, validation_imgs_samples)
 
             summary_writer.flush()
-
-            #-------------------------------------------------------------------
-            # Save a checktpoint
-            #-------------------------------------------------------------------
-            if (e+1) % args.checkpoint_interval == 0:
-                checkpoint = '{}/e{}.ckpt'.format(args.name, e+1)
-                saver.save(sess, checkpoint)
-                print('[i] Checkpoint saved:', checkpoint)
 
         checkpoint = '{}/final.ckpt'.format(args.name)
         saver.save(sess, checkpoint)
