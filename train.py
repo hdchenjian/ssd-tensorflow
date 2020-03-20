@@ -52,7 +52,7 @@ def main():
     # Parse the commandline
     #---------------------------------------------------------------------------
     parser = argparse.ArgumentParser(description='Train the SSD')
-    parser.add_argument('--name', default='test',
+    parser.add_argument('--name', default='ssd_train',
                         help='project name')
     parser.add_argument('--data-dir', default='pascal-voc',
                         help='data directory')
@@ -142,7 +142,7 @@ def main():
             os.makedirs(args.name)
         except (IOError) as e:
             print('[!]', str(e))
-            return 1
+            #return 1
 
     print('[i] Starting at epoch:    ', start_epoch+1)
 

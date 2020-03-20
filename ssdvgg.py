@@ -91,6 +91,8 @@ class SSDVGG:
         self.session = session
         self.__built = False
         self.__build_names()
+        print('self.new_scopes', self.new_scopes)
+        print(self.preset.maps, len(self.preset.maps), '\n')
 
     #---------------------------------------------------------------------------
     def build_from_vgg(self, vgg_dir, num_classes, a_trous=True,
@@ -243,6 +245,7 @@ class SSDVGG:
             # Decimate the weights
             #-------------------------------------------------------------------
             orig_w, orig_b = sess.run([self.vgg_fc6_w, self.vgg_fc6_b])
+            print('orig_w', orig_w.shape)
             mod_w = np.zeros((3, 3, 512, 1024))
             mod_b = np.zeros(1024)
 
@@ -257,7 +260,8 @@ class SSDVGG:
             #-------------------------------------------------------------------
             w = array2tensor(mod_w, 'filter')
             b = array2tensor(mod_b, 'biases')
-            x = tf.nn.atrous_conv2d(self.mod_pool5, w, rate=6, padding='SAME')
+            x = tf.nn.conv2d(self.mod_pool5, w, [1, 1, 1, 1], padding='SAME', dilations=6)
+            #x = tf.nn.atrous_conv2d(self.mod_pool5, w, rate=6, padding='SAME')
             x = tf.nn.bias_add(x, b)
             x = tf.nn.relu(x)
             self.mod_conv6 = x
