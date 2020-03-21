@@ -7,7 +7,7 @@ from utils import draw_box
 from ssdvgg import SSDVGG
 
 def main():
-    checkpoint_file = 'ssd_train/e10.ckpt'
+    checkpoint_file = 'model/e10.ckpt'
     metagraph_file = checkpoint_file + '.meta'
     with tf.Session() as sess:
         init = tf.global_variables_initializer()
@@ -21,15 +21,19 @@ def main():
         img_input = sess.graph.get_tensor_by_name('image_input:0')
         result = sess.graph.get_tensor_by_name('result/result:0')
 
-        image_path = 'assets/test.jpg'
+        image_path = 'demo/test.jpg'
         img = cv2.imread(image_path)
+        img = np.float32(img)
         img = cv2.resize(img, (300, 300))
         img = np.expand_dims(img, axis=0)
+        print('img', img)
         enc_boxes = sess.run(result, feed_dict={img_input: img})
+        print('enc_boxes', type(enc_boxes), len(enc_boxes), type(enc_boxes[0]), enc_boxes[0].shape)
 
         lid2name = {0: 'Aeroplane', 1: 'Bicycle', 2: 'Bird', 3: 'Boat', 4: 'Bottle', 5: 'Bus', 6: 'Car',
                     7: 'Cat', 8: 'Chair', 9: 'Cow', 10: 'Diningtable', 11: 'Dog', 12: 'Horse', 13: 'Motorbike',
                     14: 'Person', 15: 'Pottedplant', 16: 'Sheep', 17: 'Sofa', 18: 'Train', 19: 'Tvmonitor'}
+        print('anchors', type(anchors))
         boxes = decode_boxes(enc_boxes[0], anchors, 0.5, lid2name, None)
         boxes = suppress_overlaps(boxes)[:200]
 

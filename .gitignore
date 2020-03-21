@@ -4,3 +4,7 @@ tb-*
 *test*
 *.zip
 pascal-voc*
+model/
+offline
+tb/
+vgg_graph/
