@@ -110,7 +110,7 @@ class SSDVGG:
         self._conv5_block = self.conv_block(self._pool4, 3, 512, 3, 512, [1, 1, 1, 1], 'conv5')
         self._pool5 = tf.nn.max_pool(self._conv5_block, ksize=[1, 3, 3, 1], strides=[1, 1, 1, 1], padding='SAME',
                                      data_format=self.data_format, name='pool5')
-        self._conv6 = self.conv_block(self._pool5, 1, 1024, 3, 512, [1, 1, 1, 1], name='fc6', dilations=6)
+        self._conv6 = self.conv_block(self._pool5, 1, 1024, 3, 512, [1, 1, 1, 1], name='fc6', dilations=[1, 6, 6, 1])
         self._conv7 = self.conv_block(self._conv6, 1, 1024, 1, 1024, [1, 1, 1, 1], name='fc7')
 
         # SSD layers
