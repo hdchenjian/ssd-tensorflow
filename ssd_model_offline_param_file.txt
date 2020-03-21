@@ -4,5 +4,4 @@ input_nodes(1):
 "image_input:0",1,300,300,3
 output_nodes(1):
 "result/result:0"
-""
 }

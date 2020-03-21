@@ -138,25 +138,14 @@ void ClassifierLauncher::run_network(cv::Mat &image) {
 
     float *cpu_data_ = (float *)malloc(input_size * sizeof(float));
     int channels = img.channels();
-    for(int i = 0; i < img.rows; ++i){
-        for(int j = 0; j < img.cols; ++j){
-            cpu_data_[i * img.cols + j] = img.at<cv::Vec3b>(i, j)[0] - _B_MEAN;
+    for(int k = 0; k < channels; ++k){
+        float *cpu_data_ptr = cpu_data_ + k * img.rows * img.cols;
+        for(int i = 0; i < img.rows; ++i){
+            for(int j = 0; j < img.cols; ++j){
+                cpu_data_ptr[i * img.cols + j] = img.at<cv::Vec3b>(i, j)[k];
+            }
         }
     }
-    float *cpu_data_ptr = cpu_data_ + img.rows * img.cols;
-    for(int i = 0; i < img.rows; ++i){
-        for(int j = 0; j < img.cols; ++j){
-            cpu_data_ptr[i * img.cols + j] = img.at<cv::Vec3b>(i, j)[1] - _G_MEAN;
-        }
-    }
-    cpu_data_ptr = cpu_data_ + img.rows * img.cols * 2;
-    for(int i = 0; i < img.rows; ++i){
-        for(int j = 0; j < img.cols; ++j){
-            cpu_data_ptr[i * img.cols + j] =
-                img.at<cv::Vec3b>(i, j)[2] - _R_MEAN;
-        }
-    }
-    
     //cv::Mat img_scale(cv::Size(img.cols, img.cols), CV_32FC1);
     //cv::divide(255.0, img, img_scale, -1);
     //void *cpu_data_ = img_scale.data;
