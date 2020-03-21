@@ -31,7 +31,7 @@ import numpy as np
 from average_precision import APCalculator, APs2mAP
 from training_data import TrainingData
 from ssdutils import get_anchors_for_preset, decode_boxes, suppress_overlaps
-from ssdvgg import SSDVGG
+from ssdvgg_nn import SSDVGG
 from utils import *
 from tqdm import tqdm
 
