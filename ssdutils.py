@@ -204,13 +204,13 @@ def decode_boxes(pred, anchors, confidence_threshold = 0.01, lid2name = {},
     bg_class    = num_classes-1
     box_class   = np.argmax(pred[:, :num_classes-1], axis=1)
     confidence  = pred[np.arange(len(pred)), box_class]
-    print('pred', type(pred), pred.shape)
-    print(bg_class, 'box_class', type(box_class), box_class, box_class.shape, 'confidence', type(confidence), confidence.shape)
+    #print('pred', type(pred), pred.shape)
+    #print(bg_class, 'box_class', type(box_class), box_class, box_class.shape, 'confidence', type(confidence), confidence.shape)
     if detections_cap is not None:
         detections = np.argsort(confidence)[::-1][:detections_cap]
     else:
         detections = np.argsort(confidence)[::-1]
-    print('box_class', box_class, 'confidence', confidence.shape)
+    #print('box_class', box_class, 'confidence', confidence.shape)
     #---------------------------------------------------------------------------
     # Decode coordinates of each box with confidence over a threshold
     #---------------------------------------------------------------------------

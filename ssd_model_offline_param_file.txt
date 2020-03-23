@@ -1,7 +1,7 @@
 model_name: ssd.cambricon
 session_run{
 input_nodes(1):
-"image_input:0",1,300,300,3
+"define_input/image_input:0",1,300,300,3"
 output_nodes(1):
 "result/result:0"
 }

@@ -38,8 +38,6 @@ class SSDVGG:
         self.__build_names()
         if _data_format == 'channels_first': self.data_format = 'NCHW'
         else: self.data_format = 'NHWC'
-        with tf.name_scope('define_input'):
-            self.image_input = tf.placeholder(tf.float32, shape=(None, 300, 300, 3), name='image_input')
         print('self.new_scopes', self.new_scopes)
         print(self.preset.maps, len(self.preset.maps), '\n')
 
@@ -48,6 +46,8 @@ class SSDVGG:
         Build the model for training based on a pre-define vgg16 model.
         :param num_classes:   number of classes
         """
+        with tf.name_scope('define_input'):
+            self.image_input = tf.placeholder(tf.float32, shape=(None, 300, 300, 3), name='image_input')
         self.num_classes = num_classes+1
         self.num_vars = num_classes+5
         self.l2_loss = 0
@@ -374,7 +374,7 @@ class SSDVGG:
         sess = self.session
         saver = tf.train.import_meta_graph(metagraph_file)
         saver.restore(sess, checkpoint_file)
-        self.image_input = sess.graph.get_tensor_by_name('image_input:0')
+        self.image_input = sess.graph.get_tensor_by_name('define_input/image_input:0')
         self.result      = sess.graph.get_tensor_by_name('result/result:0')
 
     def build_optimizer_from_metagraph(self):
